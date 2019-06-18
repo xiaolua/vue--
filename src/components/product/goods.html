@@ -1,0 +1,113 @@
+<el-card>
+    <!-- 面包屑 -->
+    <BreadNav :navone="'商品管理'" :navtwo="'商品列表'"></BreadNav>
+
+    <!-- 搜索 -->
+    <el-row class="myrow">
+      <el-col :span="8">
+        <el-input placeholder="请输入内容" v-model="search" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search" @click="SelectSearch"></el-button>
+        </el-input>
+      </el-col>
+      <el-col :span="16">
+        <el-button type="success" class="addbtn" plain @click="showGoodsAdd">添加商品</el-button>
+      </el-col>
+    </el-row>
+    <!-- 添加一个表格 -->
+    <el-table :border="true" :data="ProductTableData" style="width: 100%" class="tableHeight">
+      <el-table-column type="index" width="50"></el-table-column>
+      <el-table-column prop="goods_name" label="商品名称"></el-table-column>
+      <el-table-column prop="goods_price" label="商品价格(元)" width="140"></el-table-column>
+      <el-table-column prop="goods_weight" label="商品重量" width="100"></el-table-column>
+      <el-table-column  label="创建时间" width="180">
+          <template slot-scope=scope>
+              <!-- 过滤器 -->
+            {{scope.row.add_time | mymoment('YYYY-MM-DD hh:mm:ss')}}
+          </template>
+      </el-table-column>
+
+      <el-table-column label="操作" width="140">
+        <template slot-scope="scope">
+          <!-- scope可以获取这行的数据 -->
+          <!-- 两个按钮 -->
+          <!-- 编辑按钮 -->
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            plain
+            size="mini"
+            @click="UserEdit(scope.row.id)"
+          ></el-button>
+          <!-- 删除按钮 -->
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            plain
+            size="mini"
+            @click="UserDelet(scope.row.id)"
+          ></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 表格结束 -->
+
+    <!-- 新增的对话框 -->
+    <!-- 
+                el-dialog: 对话框
+                visible.sync：控制当前对话框的显示和隐藏
+    -->
+    <el-dialog title="添加用户" :visible.sync="addDialog" class="DialogHeight" >
+      <!-- <el-form :rules="rules" ref="addForm" :model="formObj">
+        <el-form-item prop="username" label="用户名" :label-width="formLabelWidth">
+          <el-input v-model="formObj.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="password" label="密码" :label-width="formLabelWidth">
+          <el-input type="password" v-model="formObj.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-input v-model="formObj.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="formObj.mobile" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addDialog = false">取 消</el-button>
+        <el-button type="primary" @click="postAdd">确 定</el-button>
+      </div> -->
+    </el-dialog>
+
+    <!-- 编辑的对话框 -->
+    <el-dialog title="编辑用户" :visible.sync="EditDialog" class="DialogHeight">
+      <el-form :rules="rules" ref="EditForm" :model="formObj">
+        <el-form-item prop="username" label="用户名" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="formObj.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-input v-model="formObj.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="formObj.mobile" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="EditDialog = false">取 消</el-button>
+        <el-button type="primary" @click="EidtAdd">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 
+        @size-change="handleSizeChange"   pageSize 改变时会触发  每页条数
+        @current-change="handleCurrentChange"  currentPage 改变时会触发  当前页-->
+
+    <!-- 分页开始 -->
+    <el-pagination
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+    :page-sizes="pageSizes"
+    :page-size="pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="total"
+    class='pageheight'>
+  </el-pagination>
+  </el-card>

@@ -1,0 +1,13 @@
+.myrow {
+    margin-top: 10px;
+    line-height: 60px;
+  }
+  .tableHeight {
+    line-height: 0px;
+  }
+  .DialogHeight {
+    line-height: 20px;
+  }
+  .pageheight{
+      line-height: 0px;
+  }
